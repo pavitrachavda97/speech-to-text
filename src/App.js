@@ -1,25 +1,60 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import SpeechRecognition, { useSpeechRecognition, } from "react-speech-recognition";
+import { useClipboard } from "use-clipboard-copy";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import "./App.css";
+
+const App = () => {
+    const [textToCopy, setTextToCopy] = useState("");
+    const clipboard = useClipboard();
+
+    const { transcript, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
+
+    const startListening = () => {
+        if (browserSupportsSpeechRecognition) 
+        {
+            SpeechRecognition.startListening({ continuous: true, language: 'en-IN' });
+        }
+    };
+
+    const stopListening = () => {
+        if (browserSupportsSpeechRecognition) 
+        {
+            SpeechRecognition.stopListening();
+        }
+    };
+
+    const handleCopyToClipboard = () => {
+        clipboard.copy(transcript);
+        setTextToCopy(transcript);
+    };
+
+    const handleClear = () => {
+        resetTranscript();
+        setTextToCopy("");
+    };
+
+    if (!browserSupportsSpeechRecognition) 
+    {
+        return <div>Speech recognition is not supported in your browser.</div>;
+    }
+
+    return (
+        <div className="App">
+        <h1>Speech to Text Converter</h1>
+
+        <div className="container">{transcript}</div>
+
+        <div className="buttons">
+            <button onClick={startListening}>Start Listening</button>
+            <button onClick={stopListening}>Stop Listening</button>
+            <button onClick={handleCopyToClipboard}>
+                {textToCopy ? "Copied!" : "Copy to clipboard"}
+            </button>
+            <button onClick={handleClear}>Clear</button>
+        </div>
+        </div>
+    );
+};
 
 export default App;
