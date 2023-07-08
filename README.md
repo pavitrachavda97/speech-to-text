@@ -1,4 +1,15 @@
-# Getting Started with Create React App
+# speech-to-text
+The Speech-to-Text system is a powerful tool that allows you to convert spoken language into written text. This README file provides an overview of the Speech-to-Text system, its features, setup instructions, and usage guidelines.
+
+# Features
+The Speech-to-Text system offers the following features:
+- Speech Recognition
+- Real-Time Conversion
+- Multiple Audio Input Formats
+- Language Support
+- Punctuation and Formatting
+  
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
